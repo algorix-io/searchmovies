@@ -12,20 +12,22 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
 <link rel="stylesheet" href="/assets/style.css">
 <script src="https://cdn.tailwindcss.com"></script>
 </head><body class="bg-slate-950 text-slate-100">
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 bg-sky-600 text-white px-4 py-2 rounded-lg font-medium shadow-lg outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">Skip to content</a>
 <header class="border-b border-slate-800 sticky top-0 bg-slate-950/80 backdrop-blur">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
     <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
-    <form class="flex gap-2 w-full max-w-lg" method="get">
-      <input type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
-      <button class="rounded-xl border border-slate-700 px-4 py-2">Search</button>
+    <form class="flex gap-2 w-full max-w-lg" method="get" role="search">
+      <input type="search" name="q" value="<?=h($q)?>" aria-label="Search movies" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600 transition-shadow">
+      <button class="rounded-xl border border-slate-700 px-4 py-2 hover:bg-slate-800 transition" aria-label="Submit search">Search</button>
     </form>
   </div>
 </header>
-<main class="max-w-6xl mx-auto px-4 py-6">
+<main id="main-content" class="max-w-6xl mx-auto px-4 py-6 scroll-mt-24">
   <div class="flex items-end justify-between">
     <h1 class="text-2xl font-bold">Fresh Movies</h1>
     <div class="text-slate-400 text-sm"><?=count($movies)?> results</div>
   </div>
+  <?php if(count($movies) > 0): ?>
   <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
     <?php foreach($movies as $m): ?>
       <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
@@ -38,6 +40,24 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
       </a>
     <?php endforeach; ?>
   </div>
+  <?php else: ?>
+  <div class="py-16 text-center border-2 border-dashed border-slate-800 rounded-3xl mt-4">
+    <div class="text-6xl mb-4 grayscale opacity-50" aria-hidden="true">🕵️‍♀️</div>
+    <h2 class="text-2xl font-bold text-slate-200">No movies found</h2>
+    <p class="mt-2 text-slate-400 max-w-md mx-auto">
+      <?php if($q): ?>
+        We couldn't find any matches for <span class="text-slate-200 font-medium">"<?=h($q)?>"</span>.
+      <?php else: ?>
+        It looks like there aren't any movies here yet. Check back soon!
+      <?php endif; ?>
+    </p>
+    <?php if($q): ?>
+      <a href="/" class="mt-6 inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2.5 px-6 rounded-xl transition focus:ring-2 focus:ring-sky-500 focus:outline-none">
+        Clear Search
+      </a>
+    <?php endif; ?>
+  </div>
+  <?php endif; ?>
 </main>
 <footer class="border-t border-slate-800">
   <div class="max-w-6xl mx-auto px-4 py-6 text-slate-400 text-sm flex flex-wrap items-center gap-3">
