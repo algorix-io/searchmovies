@@ -16,8 +16,9 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
     <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
     <form class="flex gap-2 w-full max-w-lg" method="get">
-      <input type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
-      <button class="rounded-xl border border-slate-700 px-4 py-2">Search</button>
+      <label for="search-input" class="sr-only">Search movies</label>
+      <input id="search-input" type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600 focus:border-sky-600 transition-colors">
+      <button aria-label="Perform search" class="rounded-xl border border-slate-700 px-4 py-2 hover:bg-slate-800 hover:border-slate-600 focus-visible:ring-2 focus-visible:ring-sky-600 transition-colors">Search</button>
     </form>
   </div>
 </header>
@@ -26,6 +27,24 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
     <h1 class="text-2xl font-bold">Fresh Movies</h1>
     <div class="text-slate-400 text-sm"><?=count($movies)?> results</div>
   </div>
+  <?php if(empty($movies)): ?>
+  <div class="mt-20 text-center">
+    <div class="text-6xl select-none">🔎</div>
+    <h2 class="mt-4 text-2xl font-bold text-slate-300">No movies found</h2>
+    <p class="mt-2 text-slate-500">
+      <?php if($q): ?>
+        We couldn't find anything matching "<span class="text-slate-400"><?=h($q)?></span>".
+      <?php else: ?>
+        There are no movies available at the moment.
+      <?php endif; ?>
+    </p>
+    <?php if($q): ?>
+    <a href="/" class="mt-6 inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-6 py-2.5 hover:border-sky-600 hover:text-sky-400 transition">
+      Clear Search
+    </a>
+    <?php endif; ?>
+  </div>
+  <?php else: ?>
   <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
     <?php foreach($movies as $m): ?>
       <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
@@ -38,6 +57,7 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
       </a>
     <?php endforeach; ?>
   </div>
+  <?php endif; ?>
 </main>
 <footer class="border-t border-slate-800">
   <div class="max-w-6xl mx-auto px-4 py-6 text-slate-400 text-sm flex flex-wrap items-center gap-3">
