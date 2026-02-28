@@ -15,9 +15,10 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
 <header class="border-b border-slate-800 sticky top-0 bg-slate-950/80 backdrop-blur">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
     <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
-    <form class="flex gap-2 w-full max-w-lg" method="get">
-      <input type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
-      <button class="rounded-xl border border-slate-700 px-4 py-2">Search</button>
+    <form class="flex gap-2 w-full max-w-lg" method="get" role="search">
+      <label for="search-input" class="sr-only">Search movies</label>
+      <input id="search-input" type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
+      <button class="rounded-xl border border-slate-700 px-4 py-2 hover:bg-slate-800 focus:outline-none focus:ring focus:ring-sky-600 transition">Search</button>
     </form>
   </div>
 </header>
@@ -26,18 +27,27 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
     <h1 class="text-2xl font-bold">Fresh Movies</h1>
     <div class="text-slate-400 text-sm"><?=count($movies)?> results</div>
   </div>
-  <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-    <?php foreach($movies as $m): ?>
-      <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
-        <img src="<?=h($m['poster_url'] ?: 'https://placehold.co/600x900/png')?>" alt="<?=h($m['title'])?> poster" class="w-full h-80 object-cover">
-        <div class="p-3">
-          <div class="text-sm text-slate-400"><?=h($m['year'])?> • <?=h($m['genres'])?></div>
-          <div class="mt-1 font-semibold"><?=h($m['title'])?></div>
-          <?php if($m['rating']): ?><div class="mt-1 text-amber-300 text-sm">★ <?=h($m['rating'])?> <?php if($m['votes']):?>(<?=h($m['votes'])?>)<?php endif; ?></div><?php endif; ?>
-        </div>
-      </a>
-    <?php endforeach; ?>
-  </div>
+  <?php if(empty($movies)): ?>
+    <div class="mt-12 text-center">
+      <div class="text-6xl mb-4">🔍</div>
+      <h2 class="text-xl font-semibold mb-2">No movies found</h2>
+      <p class="text-slate-400 mb-6">We couldn't find any movies matching "<?=h($q)?>".</p>
+      <a href="/" class="inline-block rounded-xl border border-slate-700 px-6 py-2 hover:bg-slate-800 focus:outline-none focus:ring focus:ring-sky-600 transition">Clear Search</a>
+    </div>
+  <?php else: ?>
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <?php foreach($movies as $m): ?>
+        <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:ring-offset-slate-950 transition">
+          <img src="<?=h($m['poster_url'] ?: 'https://placehold.co/600x900/png')?>" alt="<?=h($m['title'])?> poster" class="w-full h-80 object-cover">
+          <div class="p-3">
+            <div class="text-sm text-slate-400"><?=h($m['year'])?> • <?=h($m['genres'])?></div>
+            <div class="mt-1 font-semibold"><?=h($m['title'])?></div>
+            <?php if($m['rating']): ?><div class="mt-1 text-amber-300 text-sm">★ <?=h($m['rating'])?> <?php if($m['votes']):?>(<?=h($m['votes'])?>)<?php endif; ?></div><?php endif; ?>
+          </div>
+        </a>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
 </main>
 <footer class="border-t border-slate-800">
   <div class="max-w-6xl mx-auto px-4 py-6 text-slate-400 text-sm flex flex-wrap items-center gap-3">
