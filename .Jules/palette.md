@@ -1,0 +1,3 @@
+## 2025-02-14 - Context-aware search headings & empty states
+**Learning:** Adding empty states with a helpful clear call-to-action when search queries return 0 results significantly reduces user frustration. Contextually updating headings (like switching from "Fresh Movies" to "Search Results") further clarifies the context of the page so users understand they are in a filtered view rather than the default homepage.
+**Action:** When working on search or filter functionalities, always implement empty states that acknowledge the specific user query (`We couldn't find any...`) and provide an immediate escape hatch (`Clear search`). Ensure context-aware headings align with the currently applied view.
