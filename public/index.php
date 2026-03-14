@@ -17,7 +17,7 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
     <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
     <form class="flex gap-2 w-full max-w-lg" method="get">
       <input type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
-      <button class="rounded-xl border border-slate-700 px-4 py-2">Search</button>
+      <button class="rounded-xl border border-slate-700 px-4 py-2 hover:bg-slate-800 outline-none focus:ring focus:ring-sky-600 transition">Search</button>
     </form>
   </div>
 </header>
