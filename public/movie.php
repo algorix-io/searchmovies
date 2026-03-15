@@ -30,8 +30,8 @@ $jsonld = [
 </head><body class="bg-slate-950 text-slate-100">
 <header class="border-b border-slate-800 sticky top-0 bg-slate-950/80 backdrop-blur">
   <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
-    <a href="/" class="text-sm underline text-slate-300">Back</a>
+    <a href="/" class="text-xl font-extrabold brand-grad outline-none focus:ring focus:ring-sky-600 rounded">🎬 <?=h(APP_NAME)?></a>
+    <a href="/" class="text-sm underline text-slate-300 hover:text-slate-100 outline-none focus:ring focus:ring-sky-600 transition-colors rounded px-1">Back</a>
   </div>
 </header>
 <main class="max-w-4xl mx-auto px-4 py-6">
@@ -62,7 +62,7 @@ $jsonld = [
         <h3 class="text-lg font-semibold">Available Downloads</h3>
         <div class="mt-3 flex flex-wrap gap-2">
           <?php foreach($links as $q=>$u): $go="/go.php?movie_id=".$movie['id']."&quality=".urlencode($q); ?>
-            <a class="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-3 py-2 hover:border-sky-600" href="<?=$go?>" target="_blank" rel="nofollow noopener">
+            <a class="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-3 py-2 hover:border-sky-600 outline-none focus:ring focus:ring-sky-600 transition-colors hover:bg-slate-800" href="<?=$go?>" target="_blank" rel="nofollow noopener">
               <span class="font-medium"><?=h($q)?></span> ↗
             </a>
           <?php endforeach; ?>
