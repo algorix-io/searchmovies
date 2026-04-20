@@ -16,8 +16,8 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
     <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
     <form class="flex gap-2 w-full max-w-lg" method="get">
-      <input type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
-      <button class="rounded-xl border border-slate-700 px-4 py-2">Search</button>
+      <input type="search" aria-label="Search movies" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
+      <button class="rounded-xl border border-slate-700 px-4 py-2" aria-label="Search">Search</button>
     </form>
   </div>
 </header>
@@ -26,6 +26,14 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
     <h1 class="text-2xl font-bold">Fresh Movies</h1>
     <div class="text-slate-400 text-sm"><?=count($movies)?> results</div>
   </div>
+  <?php if(empty($movies)): ?>
+    <div class="mt-20 flex flex-col items-center justify-center text-center">
+      <div class="text-6xl mb-4">🔍</div>
+      <h2 class="text-2xl font-bold text-slate-200">No movies found</h2>
+      <p class="mt-2 text-slate-400">We couldn't find any movies matching "<?=h($q)?>"</p>
+      <a href="/" class="mt-6 rounded-xl bg-slate-800 hover:bg-slate-700 px-6 py-3 transition text-white">Clear Search</a>
+    </div>
+  <?php else: ?>
   <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
     <?php foreach($movies as $m): ?>
       <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
@@ -38,6 +46,7 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
       </a>
     <?php endforeach; ?>
   </div>
+  <?php endif; ?>
 </main>
 <footer class="border-t border-slate-800">
   <div class="max-w-6xl mx-auto px-4 py-6 text-slate-400 text-sm flex flex-wrap items-center gap-3">
