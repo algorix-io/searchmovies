@@ -1,0 +1,3 @@
+## 2025-02-14 - Empty States and Keyboard Focus
+**Learning:** Empty states for search functions play a crucial role in UX. When search results are empty without a dedicated state, users may think the application broke or hang up. Providing a clear "No movies found" message with a "Clear search" CTA dramatically improves user navigation flow. Furthermore, interactive elements across the application often missed distinct focus indicators. Adding a standard Tailwind focus ring (`outline-none focus:ring focus:ring-sky-600`) greatly improves keyboard accessibility.
+**Action:** When adding search functionalities, always design a considerate empty state. Always apply standard focus states to interactive elements (links, buttons, cards) to maintain a11y compliance.
