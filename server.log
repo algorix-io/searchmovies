@@ -1,0 +1,13 @@
+[Mon Mar  2 03:08:58 2026] PHP 8.3.6 Development Server (http://localhost:8000) started
+[Mon Mar  2 03:09:22 2026] [::1]:54934 Accepted
+[Mon Mar  2 03:09:22 2026] [::1]:54934 [200]: GET /index.php
+[Mon Mar  2 03:09:22 2026] [::1]:54934 Closing
+[Mon Mar  2 03:09:22 2026] [::1]:54948 Accepted
+[Mon Mar  2 03:09:22 2026] [::1]:54948 [200]: GET /assets/style.css
+[Mon Mar  2 03:09:22 2026] [::1]:54948 Closing
+[Mon Mar  2 03:09:23 2026] [::1]:54956 Accepted
+[Mon Mar  2 03:09:23 2026] [::1]:54956 [200]: GET /movie.php?slug=mock-movie
+[Mon Mar  2 03:09:23 2026] [::1]:54956 Closing
+[Mon Mar  2 03:09:23 2026] [::1]:54972 Accepted
+[Mon Mar  2 03:09:23 2026] [::1]:54972 [200]: GET /assets/style.css
+[Mon Mar  2 03:09:23 2026] [::1]:54972 Closing
