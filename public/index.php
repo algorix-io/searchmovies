@@ -14,10 +14,10 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
 </head><body class="bg-slate-950 text-slate-100">
 <header class="border-b border-slate-800 sticky top-0 bg-slate-950/80 backdrop-blur">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="text-xl font-extrabold brand-grad">🎬 <?=h(APP_NAME)?></a>
+    <a href="/" class="text-xl font-extrabold brand-grad outline-none focus:ring focus:ring-sky-600 rounded">🎬 <?=h(APP_NAME)?></a>
     <form class="flex gap-2 w-full max-w-lg" method="get">
       <input type="search" name="q" value="<?=h($q)?>" placeholder="Search movies..." class="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 outline-none focus:ring focus:ring-sky-600">
-      <button class="rounded-xl border border-slate-700 px-4 py-2">Search</button>
+      <button class="rounded-xl border border-slate-700 px-4 py-2 hover:bg-slate-800 outline-none focus:ring focus:ring-sky-600">Search</button>
     </form>
   </div>
 </header>
@@ -26,9 +26,17 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
     <h1 class="text-2xl font-bold">Fresh Movies</h1>
     <div class="text-slate-400 text-sm"><?=count($movies)?> results</div>
   </div>
+  <?php if(empty($movies)): ?>
+    <div class="mt-12 text-center text-slate-400">
+      <div class="text-4xl mb-4">🎥</div>
+      <h2 class="text-xl font-semibold text-slate-200">No movies found</h2>
+      <p class="mt-2">We couldn't find any movies matching "<?=h($q)?>".</p>
+      <a href="/" class="mt-6 inline-block rounded-xl bg-slate-800 px-6 py-2 text-sm font-medium hover:bg-slate-700 outline-none focus:ring focus:ring-sky-600">Clear Search</a>
+    </div>
+  <?php else: ?>
   <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
     <?php foreach($movies as $m): ?>
-      <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
+      <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition outline-none focus:ring focus:ring-sky-600">
         <img src="<?=h($m['poster_url'] ?: 'https://placehold.co/600x900/png')?>" alt="<?=h($m['title'])?> poster" class="w-full h-80 object-cover">
         <div class="p-3">
           <div class="text-sm text-slate-400"><?=h($m['year'])?> • <?=h($m['genres'])?></div>
@@ -38,6 +46,7 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
       </a>
     <?php endforeach; ?>
   </div>
+  <?php endif; ?>
 </main>
 <footer class="border-t border-slate-800">
   <div class="max-w-6xl mx-auto px-4 py-6 text-slate-400 text-sm flex flex-wrap items-center gap-3">
