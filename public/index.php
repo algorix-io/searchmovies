@@ -26,18 +26,31 @@ $st = db()->prepare($sql); $st->execute($p); $movies=$st->fetchAll();
     <h1 class="text-2xl font-bold">Fresh Movies</h1>
     <div class="text-slate-400 text-sm"><?=count($movies)?> results</div>
   </div>
-  <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-    <?php foreach($movies as $m): ?>
-      <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
-        <img src="<?=h($m['poster_url'] ?: 'https://placehold.co/600x900/png')?>" alt="<?=h($m['title'])?> poster" class="w-full h-80 object-cover">
-        <div class="p-3">
-          <div class="text-sm text-slate-400"><?=h($m['year'])?> • <?=h($m['genres'])?></div>
-          <div class="mt-1 font-semibold"><?=h($m['title'])?></div>
-          <?php if($m['rating']): ?><div class="mt-1 text-amber-300 text-sm">★ <?=h($m['rating'])?> <?php if($m['votes']):?>(<?=h($m['votes'])?>)<?php endif; ?></div><?php endif; ?>
-        </div>
-      </a>
-    <?php endforeach; ?>
-  </div>
+  <?php if(empty($movies)): ?>
+    <div class="mt-16 mb-16 text-center flex flex-col items-center">
+      <div class="text-6xl mb-4 opacity-80" aria-hidden="true">🍿</div>
+      <h2 class="text-xl font-semibold text-slate-200">No movies found</h2>
+      <?php if($q !== ''): ?>
+        <p class="text-slate-400 mt-2 max-w-md">We couldn't find any movies matching "<span class="text-slate-200"><?=h($q)?></span>". Try a different search term.</p>
+        <a href="/" class="mt-6 rounded-xl border border-slate-700 px-6 py-2 hover:bg-slate-800 outline-none focus:ring focus:ring-sky-600 transition-colors">Clear search</a>
+      <?php else: ?>
+        <p class="text-slate-400 mt-2">There are currently no movies available.</p>
+      <?php endif; ?>
+    </div>
+  <?php else: ?>
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <?php foreach($movies as $m): ?>
+        <a href="/movie/<?=h($m['slug'])?>" class="block rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-600 transition">
+          <img src="<?=h($m['poster_url'] ?: 'https://placehold.co/600x900/png')?>" alt="<?=h($m['title'])?> poster" class="w-full h-80 object-cover">
+          <div class="p-3">
+            <div class="text-sm text-slate-400"><?=h($m['year'])?> • <?=h($m['genres'])?></div>
+            <div class="mt-1 font-semibold"><?=h($m['title'])?></div>
+            <?php if($m['rating']): ?><div class="mt-1 text-amber-300 text-sm">★ <?=h($m['rating'])?> <?php if($m['votes']):?>(<?=h($m['votes'])?>)<?php endif; ?></div><?php endif; ?>
+          </div>
+        </a>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
 </main>
 <footer class="border-t border-slate-800">
   <div class="max-w-6xl mx-auto px-4 py-6 text-slate-400 text-sm flex flex-wrap items-center gap-3">
