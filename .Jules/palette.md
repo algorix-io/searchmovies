@@ -1,0 +1,3 @@
+## 2025-03-13 - Add consistent interactive focus/hover states
+**Learning:** This app frequently utilizes custom CSS styles via Tailwind for its custom buttons, links, and cards. However, by default, buttons and interactive cards were missing explicit `focus:ring` states and sometimes explicit hover states, meaning users relying on keyboard navigation would lose track of what element had focus, hurting accessibility.
+**Action:** When creating or modifying custom interactive elements (buttons, link cards), ensure they include explicit outline and focus classes like `outline-none focus:ring focus:ring-sky-600` in addition to logical `hover` states so keyboard navigation path is explicitly visible.
