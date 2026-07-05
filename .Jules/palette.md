@@ -1,0 +1,3 @@
+## 2025-07-05 - Empty States as Actionable Paths
+**Learning:** When data grids (like search results) return empty in this application, users need an explicit, keyboard-accessible "escape hatch" rather than just a message. A simple "No results" leaves them stranded, while a prominent "Clear search" button directly bound to clearing the URL parameters resets their flow intuitively.
+**Action:** Always provide an actionable reset or alternative path within empty states, ensuring those actions use standard focus indicators (`focus-visible:ring`) for a11y compliance.
